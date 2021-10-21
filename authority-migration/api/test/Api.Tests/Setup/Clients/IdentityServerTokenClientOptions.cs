@@ -1,4 +1,4 @@
-﻿namespace Api.Tests.Clients
+﻿namespace Api.Tests.Setup.Clients
 {
     public class IdentityServerTokenClientOptions
     {

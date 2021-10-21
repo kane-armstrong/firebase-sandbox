@@ -1,9 +1,9 @@
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.PlatformAbstractions;
-using System.IO;
 
-namespace Api.Tests.Infrastructure
+namespace Api.Tests.Setup
 {
     public class TestApiFactory : WebApplicationFactory<Startup>
     {

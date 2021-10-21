@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Api.Tests.Infrastructure
+namespace Api.Tests.Setup
 {
     public class TestConfiguration
     {

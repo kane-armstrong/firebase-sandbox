@@ -1,5 +1,4 @@
-﻿using Api.Configuration;
-using FirebaseAdmin.Auth;
+﻿using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
