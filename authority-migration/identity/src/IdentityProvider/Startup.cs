@@ -1,4 +1,3 @@
-using IdentityProvider.Infrastructure;
 using IdentityProvider.Infrastructure.Database;
 using IdentityProvider.Models;
 using Microsoft.AspNetCore.Builder;
@@ -40,8 +39,7 @@ namespace IdentityProvider
                 .AddInMemoryApiResources(Config.ApiResources)
                 .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddDeveloperSigningCredential()
-                .AddProfileService<ProfileService>();
+                .AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -10,8 +10,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
+using Api.Authentication;
 using FirebaseAdmin.Auth;
+using ClaimTypes = Api.Authentication.ClaimTypes;
 
 namespace Api
 {
@@ -46,12 +51,35 @@ namespace Api
 
             const string firebaseScheme = "Firebase";
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     options.Authority = authenticationOptions.Authority;
                     options.Audience = authenticationOptions.Audience;
                     options.RequireHttpsMetadata = authenticationOptions.RequireHttps;
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnTokenValidated = context =>
+                        {
+                            var identity = new ClaimsIdentity();
+
+                            // Map unique identifier claims from the old authority to those used in the new one
+                            var userId = context.Principal.FindFirst(ClaimTypes.OldAuthorityUserId)?.Value;
+                            if (userId == null)
+                            {
+                                context.Fail("The 'sub' claim is not present in the token.");
+                                return Task.CompletedTask;
+                            }
+
+                            identity.AddClaim(new Claim(ClaimTypes.UserId, userId));
+
+                            context.Principal.AddIdentity(identity);
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 })
                 .AddFirebaseAuthentication(firebaseOptions.ProjectId, firebaseScheme);
 

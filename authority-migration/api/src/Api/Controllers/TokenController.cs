@@ -1,8 +1,9 @@
-﻿using FirebaseAdmin.Auth;
+﻿using Api.Configuration;
+using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
 using System.Threading.Tasks;
+using Api.Authentication;
 
 namespace Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace Api.Controllers
         [HttpPost("refresh")]
         public async Task<IActionResult> CreateCustomToken()
         {
-            var uid = User.Claims.First(x => x.Type == "user_id").Value;
+            var uid = User.FindFirst(ClaimTypes.UserId).Value;
             var token = await _firebase.CreateCustomTokenAsync(uid);
             return Ok(token);
         }

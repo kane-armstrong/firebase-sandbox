@@ -1,4 +1,4 @@
-﻿namespace Api.Configuration
+﻿namespace Api.Authentication
 {
     public class AuthenticationOptions
     {
